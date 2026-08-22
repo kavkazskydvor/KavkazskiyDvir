@@ -816,7 +816,7 @@ td {
 .close-modal {
     position: absolute;
     top: -15px;
-    right: -10px;
+    right: -5px;
     font-size: 40px;
     color: white;
     cursor: pointer;
