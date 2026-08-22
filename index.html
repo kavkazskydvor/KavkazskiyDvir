@@ -57,6 +57,7 @@
                 <div class="menu" id="menu">
                     <button onclick="showMenu(); toggleMenu();">Головна</button>
                     <a href="https://kavkazkyi-dvir.choiceqr.com/section:menu/..." onclick="gtag('event', 'click', {'event_category': 'menu', 'event_label': 'choice_menu_open'}); toggleMenu()">Меню</a>
+                    <button onclick="showGallery(); toggleMenu();">Галерея</button>
                     <button onclick="showDelivery(); toggleMenu();">Доставка</button>
                     <button onclick="showContacts(); toggleMenu();">Контакти</button>
                 </div>
@@ -87,6 +88,29 @@
                 </div>
 
                 <div class="gallery" id="gallery"></div>
+            </div>
+
+            <div class="mainGallery" id="mainGallery" style="display: none;">
+                <h2 class="gallery-title"><i>Наші локації</em></h2>
+                <p class="gallery-subtitle">Відчуйте атмосферу кожного нашого закладу</p>
+                <div class="polaroid-container">
+                    <div class="polaroid-card" onclick="openModal('loc1')">
+                        <img src="locations/E77A1950.jpg" alt="Кропивницький">
+                        <p class="polaroid-caption">Кропивницький (Незалежності)</p>
+                    </div>
+                    <div class="polaroid-card" onclick="openModal('loc2')">
+                        <img src="locations/E77A6148.jpg" alt="Кропивницький">
+                        <p class="polaroid-caption">Кропивницький (Соборна)</p>
+                    </div>
+                    <div class="polaroid-card" onclick="openModal('loc3')">
+                        <img src="locations/E77A6297.jpg" alt="Кропивницький">
+                        <p class="polaroid-caption">Кропивницький (Театральна)</p>
+                    </div>
+                    <div class="polaroid-card" onclick="openModal('loc4')">
+                        <img src="locations/Знамянка — копия (2).png" alt="Знам'янка">
+                        <p class="polaroid-caption">Знам'янка (Глібка)</p>
+                    </div>
+                </div>
             </div>
 
             <div class="mainContact" id="mainContact" style="display: none;">
@@ -439,6 +463,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="javascript:void(0)" onclick="showGallery()">
+                                    Галерея &#128248;
+                                </a>
+                            </li>
+                            <li>
                                 <a href="javascript:void(0)" onclick="showDelivery()">
                                     Доставка &#128757;
                                 </a>
@@ -469,6 +498,22 @@
             </footer>
             <div class="footer-copyright">
                 <p>© <span id="year"></span> Kavkazskiy dvir. Всі права захищені.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalGallery" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalTitle">Назва локації</h2>
+            </div>
+            <div class="modal-slider-container">
+                <button class="nav-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+                <div class="slide-wrapper">
+                    <img id="modalImage" src="" alt="Gallery Image">
+                </div>
+                <button class="nav-btn next" onclick="changeSlide(1)">&#10095;</button>
             </div>
         </div>
     </div>

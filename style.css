@@ -546,6 +546,9 @@ td {
     border-radius: 12px;
     text-align: center;
 }
+    .delivery-section h2{
+        color: #f5eac2;
+    }
 
 .delivery-grid {
     display: flex;
@@ -603,6 +606,9 @@ td {
 .contactBar {
     text-align: center;
 }
+    .contactBar h2{
+        color: #f5eac2;
+    }
 
     .contactBar h2,
     .contactBar h3 {
@@ -710,3 +716,155 @@ td {
             margin-left: 8px;
             vertical-align: middle;
         }
+
+/* Стилі для нової секції Галереї */
+.gallery-title {
+    font-size: 36px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #f5eac2;
+}
+
+.gallery-subtitle {
+    font-size: 18px;
+    margin-bottom: 40px;
+    text-align: center;
+    opacity: 0.8;
+}
+
+.polaroid-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.polaroid-card {
+    background: #fff;
+    padding: 15px 15px 30px 15px;
+    border: 1px solid #ddd;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+    width: 220px;
+    transition: transform 0.3s ease;
+}
+
+.polaroid-card:hover {
+    transform: rotate(-2deg) scale(1.05);
+}
+
+.polaroid-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border: 1px solid #eee;
+    margin-bottom: 15px;
+}
+
+.polaroid-caption {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    text-align: center;
+    color: #333;
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Адаптивність для мобільних */
+@media screen and (max-width: 917px) {
+    .polaroid-container {
+        gap: 15px;
+    }
+    /*.polaroid-card {
+        width: calc(50% - 20px); /* Показувати по 2 в ряд на мобільних 
+    }*/
+    .polaroid-caption {
+        font-size: 14px;
+    }
+}
+
+/* Повна темрява навколо модального вікна */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95); /* Дуже темний фон */
+    z-index: 10000;
+    display: none; /* <--- ВАЖЛИВО: Вікно приховано до моменту кліку! */
+    justify-content: center;
+    align-items: center;
+    /*padding: 20px;*/
+}
+
+/* Са саме вікно (рамка) */
+.modal-content {
+    position: relative;
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid #333;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+    width: 90%;
+    max-width: 800px; /* Вікно не на всю ширину */
+}
+
+/* Кнопка закрити (х) */
+.close-modal {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    line-height: 1;
+    z-index: 10002;
+}
+
+/* Контейнер для фото та стрілок */
+.modal-slider-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide-wrapper img {
+    max-width: 100%;
+    height: auto;
+    max-height: 65vh;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+/* Стрілки перемикання */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    padding: 20px 15px;
+    cursor: pointer;
+    font-size: 30px;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.nav-btn.prev { left: -70px; }
+.nav-btn.next { right: -70px; }
+
+/* Адаптивність для смартфонів */
+@media (max-width: 800px) {
+    .nav-btn.prev { left: -20px; }
+    .nav-btn.next { right: -20px; }
+    .modal-content { padding: 15px; }
+}

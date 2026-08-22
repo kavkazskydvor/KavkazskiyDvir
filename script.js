@@ -14,9 +14,25 @@ window.addEventListener("load", function () {
     }, 500);
 });
 
+function showGallery() {
+    document.getElementById("mainMenu").style.display = "none";
+    document.getElementById("mainContact").style.display = "none";
+    document.getElementById("mainDelivery").style.display = "none";
+    document.getElementById("mainGallery").style.display = "block";
+
+    setTimeout(() => {
+        document.getElementById('mainGallery').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }, 100);
+}
+
+
 function showContacts() {
     document.getElementById("mainMenu").style.display = "none";
     document.getElementById("mainContact").style.display = "block";
+    document.getElementById("mainGallery").style.display = "none";
     document.getElementById("mainDelivery").style.display = "none";
 
     setTimeout(() => {
@@ -44,8 +60,9 @@ function openMail(e) {
 
 function showMenu() {
     document.getElementById("mainContact").style.display = "none";
-    document.getElementById("mainMenu").style.display = "block";
     document.getElementById("mainDelivery").style.display = "none";
+    document.getElementById("mainGallery").style.display = "none";
+    document.getElementById("mainMenu").style.display = "block";
 
     window.scrollTo({
         top: 0,
@@ -56,6 +73,7 @@ function showMenu() {
 function showDelivery() {
     document.getElementById("mainMenu").style.display = "none";
     document.getElementById("mainContact").style.display = "none";
+    document.getElementById("mainGallery").style.display = "none";
     document.getElementById("mainDelivery").style.display = "block";
 
     setTimeout(() => {
@@ -149,6 +167,119 @@ function replaceOneImage() {
 
     }, 300);
 }
+
+const galleryData = {
+    loc1: [
+        "locations/E77A1950.jpg",
+        "images/Nezalezhnosti/E77A1562.jpg",
+        "images/Nezalezhnosti/E77A1627.jpg",
+        "images/Nezalezhnosti/E77A1639.jpg",
+        "images/Nezalezhnosti/E77A1650.jpg",
+        "images/Nezalezhnosti/E77A1659.jpg",
+        "images/Nezalezhnosti/E77A1877.jpg",
+        "images/Nezalezhnosti/E77A1879.jpg",
+        "images/Nezalezhnosti/E77A1892.jpg",
+        "images/Nezalezhnosti/E77A1896.jpg",
+        "images/Nezalezhnosti/E77A1899.jpg",
+        "images/Nezalezhnosti/E77A1928.jpg",
+        "images/Nezalezhnosti/E77A1935.jpg",
+        "images/Nezalezhnosti/E77A1938.jpg",
+        "images/Nezalezhnosti/E77A1950.jpg",
+        "images/Nezalezhnosti/E77A1955.jpg",
+        "images/Nezalezhnosti/E77A1960.jpg",
+        "images/Nezalezhnosti/E77A1969.jpg",
+        "images/Nezalezhnosti/E77A1971.jpg",
+        "images/Nezalezhnosti/E77A1975.jpg",
+        "images/Nezalezhnosti/E77A1984.jpg",
+        "images/Nezalezhnosti/E77A1992.jpg",
+        "images/Nezalezhnosti/E77A1998.jpg"
+    ],
+    loc2: [
+        "locations/E77A6148.jpg",
+        "images/Soborna/E77A6116.jpg",
+        "images/Soborna/E77A6128.jpg",
+        "images/Soborna/E77A6137.jpg",
+        "images/Soborna/E77A6141.jpg",
+        "images/Soborna/E77A6163.jpg",
+        "images/Soborna/E77A6176.jpg",
+        "images/Soborna/E77A6183.jpg",
+        "images/Soborna/E77A6200.jpg",
+        "images/Soborna/E77A6202.jpg",
+        "images/Soborna/E77A6236.jpg",
+        "images/Soborna/E77A6242.jpg",
+        "images/Soborna/E77A6259.jpg",
+        "images/Soborna/E77A6261.jpg",
+        "images/Soborna/E77A6267.jpg",
+        "images/Soborna/E77A6281.jpg"
+    ],
+    loc3: [
+        "locations/E77A6297.jpg",
+        "images/Teatralna/E77A6321.jpg",
+        "images/Teatralna/E77A6326.jpg",
+        "images/Teatralna/E77A6343.jpg",
+        "images/Teatralna/E77A6363.jpg",
+        "images/Teatralna/E77A6369.jpg",
+        "images/Teatralna/E77A6388.jpg",
+        "images/Teatralna/E77A6391.jpg",
+        "images/Teatralna/E77A6403.jpg",
+        "images/Teatralna/E77A6412.jpg",
+        "images/Teatralna/E77A6418.jpg",
+        "images/Teatralna/E77A6432.jpg",
+        "images/Teatralna/E77A6441.jpg",
+        "images/Teatralna/E77A6453.jpg"
+    ],
+    loc4: [
+        "locations/Знамянка — копия (2).png"
+    ]
+};
+
+let currentGalleryIndex = 0;
+let currentGalleryImages = [];
+
+function openModal(locationId) {
+    const modal = document.getElementById("modalGallery");
+    const title = document.getElementById("modalTitle");
+    const imgElement = document.getElementById("modalImage");
+    
+    currentGalleryImages = galleryData[locationId] || galleryData['loc1'];
+    currentGalleryIndex = 0;
+
+    const titles = {
+        loc1: "Кропивницький (Незалежності)",
+        loc2: "Кропивницький (Соборна)",
+        loc3: "Кропивницький (Театральна)",
+        loc4: "Знам'янка (Глібка)"
+    };
+    title.innerText = titles[locationId] || "Наша галерея";
+
+    imgElement.src = currentGalleryImages[currentGalleryIndex];
+    
+    modal.style.display = "flex";
+}
+
+function changeSlide(direction) {
+    const imgElement = document.getElementById("modalImage");
+    currentGalleryIndex += direction;
+
+    if (currentGalleryIndex >= currentGalleryImages.length) {
+        currentGalleryIndex = 0;
+    } else if (currentGalleryIndex < 0) {
+        currentGalleryIndex = currentGalleryImages.length - 1;
+    }
+
+    imgElement.src = currentGalleryImages[currentGalleryIndex];
+}
+
+document.querySelector(".close-modal").addEventListener("click", function() {
+    document.getElementById("modalGallery").style.display = "none";
+});
+
+window.onclick = function(event) {
+    const modal = document.getElementById("modalGallery");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
 
 initGallery();
 setInterval(replaceOneImage, 4000);
