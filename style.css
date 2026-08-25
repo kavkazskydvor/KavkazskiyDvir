@@ -3,7 +3,7 @@
     font-family: 'Libre Baskerville', serif;
     font-style: italic;
     color: white;
-    background: url("images/1.png") center/cover no-repeat fixed;
+    background: url("images/1.png") center/cover no-repeat;
 }
 
 #preloader {
@@ -867,4 +867,15 @@ td {
     .nav-btn.prev { left: -20px; }
     .nav-btn.next { right: -20px; }
     .modal-content { padding: 15px; }
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("images/1.png") center/cover no-repeat;
+    z-index: -1;
 }
