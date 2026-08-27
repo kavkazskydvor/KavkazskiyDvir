@@ -119,7 +119,7 @@ td {
     text-align: center;
 }
 
-@media screen and (max-width: 917px) {
+@media screen and (max-width: 1016px) {
     .menu {
         display: none;
     }
@@ -878,4 +878,21 @@ body::before {
     bottom: 0;
     background: url("images/1.png") center/cover no-repeat;
     z-index: -1;
+}
+
+@media (max-width: 950px) {
+    /* Зменшуємо відступ, щоб кнопки не вилітали за край екрана */
+    .nav-btn.prev {
+        left: -45px; /* Менше відлякування від картинки */
+    }
+
+    .nav-btn.next {
+        right: -45px;
+    }
+
+    /* Додатково зменшуємо розмір кнопок для зручності на мобілках */
+    .nav-btn {
+        padding: 15px 12px;
+        font-size: 26px;
+    }
 }
