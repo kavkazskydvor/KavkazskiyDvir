@@ -118,54 +118,65 @@ const images = [
 ];
 
 const gallery = document.getElementById("gallery");
-
-let currentImages = [];
-
-function shuffle(arr) {
-    return arr.sort(() => Math.random() - 0.5);
-}
-
-function getImageCount() {
-    return window.innerWidth <= 920 ? 6 : 9;
-}
+let currentImages = []; 
 
 function initGallery() {
-    const count = getImageCount();
-    currentImages = shuffle([...images]).slice(0, count);
+    const uniqueSource = [...new Set(images)];
+    
+    const count = window.innerWidth <= 920 ? 6 : 9;
+    
+    currentImages = [...uniqueSource]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, count);
 
     gallery.innerHTML = "";
 
     currentImages.forEach(src => {
         const img = document.createElement("img");
         img.src = src;
+        img.style.transition = "opacity 0.3s ease-in-out";
         gallery.appendChild(img);
     });
 }
 
 function replaceOneImage() {
-    const galleryImages = gallery.children;
+    const galleryItems = gallery.querySelectorAll("img");
+    if (galleryItems.length === 0) return;
 
-    let indexToReplace = Math.floor(Math.random() * currentImages.length);
+    const indexToReplace = Math.floor(Math.random() * currentImages.length);
 
-    let available = images.filter(img => !currentImages.includes(img));
-    if (available.length === 0) return;
+    const available = uniqueSourceFilter();
 
-    let newImage = available[Math.floor(Math.random() * available.length)];
+    if (available.length === 0) {
+        return;
+    }
 
-    const imgElement = galleryImages[indexToReplace];
+    const newImageSource = available[Math.floor(Math.random() * available.length)];
 
-    imgElement.style.opacity = "0";
+    const targetImg = galleryItems[indexToReplace];
+    
+    const tempImg = new Image();
+    tempImg.src = newImageSource;
 
-    setTimeout(() => {
-        imgElement.src = newImage;
+    tempImg.onload = function() {
+        targetImg.style.opacity = "0";
 
         setTimeout(() => {
-            imgElement.style.opacity = "1";
-        }, 50);
+            targetImg.src = newImageSource;
+            
+            currentImages[indexToReplace] = newImageSource;
 
-        currentImages[indexToReplace] = newImage;
+            setTimeout(() => {
+                targetImg.style.opacity = "1";
+            }, 50);
+        }, 300);
+    };
+}
 
-    }, 300);
+function uniqueSourceFilter() {
+    const source = [...new Set(images)]; 
+    
+    return source.filter(src => !currentImages.includes(src));
 }
 
 const galleryData = {
