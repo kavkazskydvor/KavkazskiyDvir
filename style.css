@@ -815,9 +815,9 @@ td {
 /* Кнопка закрити (х) */
 .close-modal {
     position: absolute;
-    top: -15px;
-    right: -5px;
-    font-size: 40px;
+    top: 20px;
+    right: 5px;
+    font-size: 60px;
     color: white;
     cursor: pointer;
     line-height: 1;
