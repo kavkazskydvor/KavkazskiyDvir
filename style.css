@@ -896,3 +896,13 @@ body::before {
         font-size: 26px;
     }
 }
+/* Якщо екран дуже вузький (маленькі телефони) */
+@media (max-width: 480px) {
+    .nav-btn.prev {
+        left: -15px;
+    }
+
+    .nav-btn.next {
+        right: -15px;
+    }
+}
