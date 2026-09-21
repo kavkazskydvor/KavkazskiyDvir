@@ -180,6 +180,12 @@ function uniqueSourceFilter() {
 }
 
 const galleryData = {
+    loc0: [
+        "images/Lisoparkova/IMG_20260921_150738_309~3.jpg",
+        "images/Lisoparkova/IMG_20260921_150738_325~3.jpg",
+        "images/Lisoparkova/IMG_20260921_150737_724~5.jpg",
+        "images/Lisoparkova/IMG_20260921_150738_210~2.jpg"
+    ],
     loc1: [
         "locations/E77A1950.jpg",
         "images/Nezalezhnosti/E77A1562.jpg",
