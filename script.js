@@ -262,6 +262,7 @@ function openModal(locationId) {
     currentGalleryIndex = 0;
 
     const titles = {
+        loc0: "Кропивницький (Лісопаркова)",
         loc1: "Кропивницький (Незалежності)",
         loc2: "Кропивницький (Соборна)",
         loc3: "Кропивницький (Театральна)",
