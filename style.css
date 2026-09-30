@@ -325,7 +325,7 @@ td {
 }
 
 
-@media screen and (max-width: 917px) {
+@media screen and (max-width: 1016px) {
     .gallery {
         grid-template-columns: 1fr 1fr !important;
     }
@@ -475,7 +475,7 @@ td {
     border-radius: 10px;
 }
 
-@media (min-width: 918px) and (max-width: 1499px) {
+@media (min-width: 1016px) and (max-width: 1499px) {
 
     .footer-container {
         display: grid;
