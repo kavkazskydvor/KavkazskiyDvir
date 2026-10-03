@@ -906,3 +906,13 @@ body::before {
         right: -15px;
     }
 }
+
+.slide-wrapper video {
+    max-width: 100%;
+    height: auto;
+    max-height: 65vh;
+    border-radius: 10px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}

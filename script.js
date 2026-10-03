@@ -123,7 +123,7 @@ let currentImages = [];
 function initGallery() {
     const uniqueSource = [...new Set(images)];
     
-    const count = window.innerWidth <= 920 ? 6 : 9;
+    const count = window.innerWidth <= 1016 ? 6 : 9;
     
     currentImages = [...uniqueSource]
         .sort(() => Math.random() - 0.5)
@@ -184,7 +184,8 @@ const galleryData = {
         "images/Lisoparkova/IMG_20260921_150738_309~3.jpg",
         "images/Lisoparkova/IMG_20260921_150738_325~3.jpg",
         "images/Lisoparkova/IMG_20260921_150737_724~5.jpg",
-        "images/Lisoparkova/IMG_20260921_150738_210~2.jpg"
+        "images/Lisoparkova/IMG_20260921_150738_210~2.jpg",
+        "images/Lisoparkova/img-8487_OlEYF37Q.mp4"
     ],
     loc1: [
         "locations/E77A1950.jpg",
@@ -253,10 +254,31 @@ const galleryData = {
 let currentGalleryIndex = 0;
 let currentGalleryImages = [];
 
+// НОВАЯ ФУНКЦИЯ ДЛЯ ОПРЕДЕЛЕНИЯ ВИДЕО ИЛИ ФОТО
+function renderMedia(src) {
+    const container = document.getElementById("modalMediaContainer");
+    if (!container) return;
+
+    const isVideo = src.toLowerCase().endsWith('.mov') || src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.webm');
+
+    if (isVideo) {
+        container.innerHTML = `
+            <video src="${src}" 
+                   controls 
+                   autoplay 
+                   loop 
+                   style="max-width: 100%; max-height: 65vh; display: block; margin: 0 auto; border-radius: 10px;">
+            </video>`;
+    } else {
+        container.innerHTML = `
+            <img src="${src}" 
+                 style="max-width: 100%; max-height: 65vh; display: block; margin: 0 auto; border-radius: 10px;">`;
+    }
+}
+
 function openModal(locationId) {
     const modal = document.getElementById("modalGallery");
     const title = document.getElementById("modalTitle");
-    const imgElement = document.getElementById("modalImage");
     
     currentGalleryImages = galleryData[locationId] || galleryData['loc1'];
     currentGalleryIndex = 0;
@@ -270,13 +292,13 @@ function openModal(locationId) {
     };
     title.innerText = titles[locationId] || "Наша галерея";
 
-    imgElement.src = currentGalleryImages[currentGalleryIndex];
+    // ВЫЗЫВАЕМ НОВУЮ ФУНКЦИЮ
+    renderMedia(currentGalleryImages[currentGalleryIndex]);
     
     modal.style.display = "flex";
 }
 
 function changeSlide(direction) {
-    const imgElement = document.getElementById("modalImage");
     currentGalleryIndex += direction;
 
     if (currentGalleryIndex >= currentGalleryImages.length) {
@@ -285,17 +307,32 @@ function changeSlide(direction) {
         currentGalleryIndex = currentGalleryImages.length - 1;
     }
 
-    imgElement.src = currentGalleryImages[currentGalleryIndex];
+    // ВЫЗЫВАЕМ НОВУЮ ФУНКЦИЮ
+    renderMedia(currentGalleryImages[currentGalleryIndex]);
 }
 
+// 1. Закрытие по нажатию на крестик
 document.querySelector(".close-modal").addEventListener("click", function() {
     document.getElementById("modalGallery").style.display = "none";
+    
+    // Очищаем контейнер, чтобы видео остановилось и звук исчез
+    const container = document.getElementById("modalMediaContainer");
+    if (container) {
+        container.innerHTML = "";
+    }
 });
 
+// 2. Закрытие по нажатию мимо окна (на темный фон)
 window.onclick = function(event) {
     const modal = document.getElementById("modalGallery");
     if (event.target == modal) {
         modal.style.display = "none";
+        
+        // Очищаем контейнер, чтобы видео остановилось и звук исчез
+        const container = document.getElementById("modalMediaContainer");
+        if (container) {
+            container.innerHTML = "";
+        }
     }
 };
 
