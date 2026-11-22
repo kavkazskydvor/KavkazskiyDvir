@@ -3,18 +3,83 @@ const menu = document.getElementById("menu");
 const overlay = document.getElementById("overlay");
 document.getElementById("year").textContent = new Date().getFullYear();
 
-window.addEventListener("load", function () {
+// Прелоадер ховаємо одразу, як тільки готовий HTML (а не після завантаження ВСІХ фото),
+// щоб відвідувач з реклами не чекав на білому/чорному екрані.
+function hidePreloader() {
     const preloader = document.getElementById("preloader");
-
+    if (!preloader || preloader.dataset.hidden) return;
+    preloader.dataset.hidden = "1";
+    preloader.style.transition = "opacity 0.4s ease";
     preloader.style.opacity = "0";
-    preloader.style.transition = "opacity 0.5s ease";
-
     setTimeout(() => {
         preloader.style.display = "none";
-    }, 500);
+    }, 400);
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", hidePreloader);
+} else {
+    hidePreloader();
+}
+// Страховка: в будь-якому разі не довше 1.5 с
+setTimeout(hidePreloader, 1500);
+
+/* =====================================================================
+   Відстеження конверсій Google Ads / GA4
+   ---------------------------------------------------------------------
+   1. Створіть конверсії в Google Ads (Цілі → Конверсії → Нова → Вебсайт →
+      «Налаштувати вручну за допомогою коду»). Google видасть рядок вигляду
+      send_to: 'AW-17588294996/AbCdEfGhIjKlMn'. Частина ПІСЛЯ слеша — це мітка.
+   2. Вставте мітки нижче. Поки мітка порожня, конверсія не надсилається
+      (подія для GA4 все одно надсилається).
+   3. Якщо є GA4 — вставте ідентифікатор G-XXXXXXXXXX у GA4_ID.
+   ===================================================================== */
+const ADS_ID = "AW-17588294996";
+const CONVERSION_LABELS = {
+    call: "5OdkCN_XrL0dENSq4MJB",        // «Дзвінок з сайту»       (кліки по номерах телефонів)
+    delivery: "Sy8zCOXXrL0dENSq4MJB",    // «Перехід у доставку»    (Bolt Food, Mixfood, Misteram)
+    directions: "cLaGCOLXrL0dENSq4MJB",  // «Маршрут / карта»       (кліки по адресах)
+    menu: "ItPFCOjXrL0dENSq4MJB"         // «Відкриття меню»        (другорядна конверсія; посилання на choiceqr)
+};
+const GA4_ID = "";   // наприклад "G-ABC123XYZ"
+
+// Назви подій для GA4 (їх можна позначити як «ключові події» та імпортувати в Google Ads)
+const EVENT_NAMES = {
+    call: "phone_call",
+    delivery: "delivery_click",
+    directions: "get_directions",
+    menu: "menu_open",
+    social: "social_click"
+};
+
+if (GA4_ID && typeof gtag === "function") {
+    gtag("config", GA4_ID);
+}
+
+document.addEventListener("click", function (e) {
+    const el = e.target.closest("[data-track]");
+    if (!el || typeof gtag !== "function") return;
+
+    const type = el.dataset.track;
+    const params = {
+        location: el.dataset.location || "",
+        place: el.dataset.place || "",
+        link_url: el.href || ""
+    };
+
+    gtag("event", EVENT_NAMES[type] || type, params);
+
+    const label = CONVERSION_LABELS[type];
+    if (label) {
+        gtag("event", "conversion", {
+            send_to: ADS_ID + "/" + label,
+            transport_type: "beacon"
+        });
+    }
 });
 
 function showGallery() {
+    setHash("#locations");
     document.getElementById("mainMenu").style.display = "none";
     document.getElementById("mainContact").style.display = "none";
     document.getElementById("mainDelivery").style.display = "none";
@@ -30,6 +95,7 @@ function showGallery() {
 
 
 function showContacts() {
+    setHash("#contacts");
     document.getElementById("mainMenu").style.display = "none";
     document.getElementById("mainContact").style.display = "block";
     document.getElementById("mainGallery").style.display = "none";
@@ -59,6 +125,7 @@ function openMail(e) {
 }
 
 function showMenu() {
+    setHash("");
     document.getElementById("mainContact").style.display = "none";
     document.getElementById("mainDelivery").style.display = "none";
     document.getElementById("mainGallery").style.display = "none";
@@ -71,6 +138,7 @@ function showMenu() {
 }
 
 function showDelivery() {
+    setHash("#delivery");
     document.getElementById("mainMenu").style.display = "none";
     document.getElementById("mainContact").style.display = "none";
     document.getElementById("mainGallery").style.display = "none";
@@ -338,3 +406,28 @@ window.onclick = function(event) {
 
 initGallery();
 setInterval(replaceOneImage, 4000);
+
+
+/* ===== Прямі посилання на розділи (для різних оголошень Google Ads) =====
+   https://kavkazskiydvir.com.ua/#delivery  → Доставка
+   https://kavkazskiydvir.com.ua/#contacts  → Контакти / телефони / карти
+   https://kavkazskiydvir.com.ua/#locations → Галерея локацій
+   UTM-мітки та gclid не заважають: ...?gclid=xxx#delivery працює. */
+function setHash(hash) {
+    const url = window.location.pathname + window.location.search + hash;
+    if (window.location.hash !== hash) {
+        history.replaceState(null, "", url);
+    }
+}
+
+function openSectionFromHash() {
+    switch (window.location.hash) {
+        case "#delivery": showDelivery(); break;
+        case "#contacts": showContacts(); break;
+        case "#locations":
+        case "#gallery": showGallery(); break;
+    }
+}
+
+window.addEventListener("hashchange", openSectionFromHash);
+openSectionFromHash();

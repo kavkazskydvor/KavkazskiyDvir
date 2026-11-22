@@ -3,7 +3,7 @@
     font-family: 'Libre Baskerville', serif;
     font-style: italic;
     color: white;
-    background: url("images/1.png") center/cover no-repeat;
+    background: url("images/bg.jpg") center/cover no-repeat;
 }
 
 #preloader {
@@ -876,7 +876,7 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url("images/1.png") center/cover no-repeat;
+    background: url("images/bg.jpg") center/cover no-repeat;
     z-index: -1;
 }
 
